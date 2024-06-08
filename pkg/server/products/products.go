@@ -32,3 +32,25 @@ func RegisterRoutes(router chi.Router) http.Handler {
 
 	return router
 }
+
+// ProductContext handles loading product item with given ID.
+// Returns default Empty response if product not found.
+func ProductContext(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		var product *Product
+		if chi.URLParam(req, "productId") == "" {
+			render.Respond(w, req, httputils.NotFoundResponse)
+			return
+		}
+
+		product = &Product{
+			ID:       1,
+			Name:     "Toaster",
+			Price:    19.99,
+			Quantity: 100,
+		}
+
+		ctx := context.WithValue(req.Context(), productContextKey, product)
+		next.ServeHTTP(w, req.WithContext(ctx))
+	})
+}
