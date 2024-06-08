@@ -83,3 +83,11 @@ func GetProductItem(w http.ResponseWriter, req *http.Request) {
 
 	render.JSON(w, req, httputils.NewAPIResponse(product))
 }
+
+// UpdateProductItem updates a product item (non idempotenent).
+func UpdateProductItem(w http.ResponseWriter, req *http.Request) {
+
+	product := req.Context().Value(productContextKey).(*Product)
+
+	render.JSON(w, req, httputils.NewAPIResponse(product))
+}
