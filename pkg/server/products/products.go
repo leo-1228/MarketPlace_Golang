@@ -1,9 +1,12 @@
 package products
 
 import (
+	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/yohannesHL/go-marketplace/pkg/httputils"
 )
 
 // Product dto object for a product .
@@ -69,6 +72,14 @@ func CreateProducts(w http.ResponseWriter, req *http.Request) {
 		render.JSON(w, req, httputils.ServerError(err))
 		return
 	}
+
+	render.JSON(w, req, httputils.NewAPIResponse(product))
+}
+
+// GetProductItem return a single product item matching ID.
+func GetProductItem(w http.ResponseWriter, req *http.Request) {
+
+	product := req.Context().Value(productContextKey).(*Product)
 
 	render.JSON(w, req, httputils.NewAPIResponse(product))
 }
