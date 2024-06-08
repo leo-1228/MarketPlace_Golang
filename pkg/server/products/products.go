@@ -91,3 +91,17 @@ func UpdateProductItem(w http.ResponseWriter, req *http.Request) {
 
 	render.JSON(w, req, httputils.NewAPIResponse(product))
 }
+
+// DeleteProductItem deletes a product item matching given ID.
+func DeleteProductItem(w http.ResponseWriter, req *http.Request) {
+	product := req.Context().Value(productContextKey).(*Product)
+
+	render.JSON(w, req, httputils.NewAPIResponse(product))
+}
+
+var products = []*Product{
+	{1, "Toaster", 19.99, 70},
+	{1, "Kettle", 29.99, 30},
+	{1, "Chair", 99.99, 80},
+	{1, "Lamp", 19.99, 50},
+}
