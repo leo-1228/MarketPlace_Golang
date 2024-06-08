@@ -54,3 +54,21 @@ func ProductContext(next http.Handler) http.Handler {
 		next.ServeHTTP(w, req.WithContext(ctx))
 	})
 }
+
+// ListProducts returns a list of product items.
+func ListProducts(w http.ResponseWriter, req *http.Request) {
+
+	render.JSON(w, req, httputils.NewAPIResponse(products))
+}
+
+// CreateProducts adds new product item/s.
+func CreateProducts(w http.ResponseWriter, req *http.Request) {
+	product, err := json.Marshal(Product{1, "Toaster", 19.99, 100})
+
+	if err != nil {
+		render.JSON(w, req, httputils.ServerError(err))
+		return
+	}
+
+	render.JSON(w, req, httputils.NewAPIResponse(product))
+}
